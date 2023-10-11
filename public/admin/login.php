@@ -16,7 +16,10 @@ if (is_post()) {
         $_SESSION['admin'] = $admin;
         redirect('/admin/dashboard.php');
     } else {
-        $errors['credentials'] = "Identifiants incorrects.";
+        $_SESSION['previous_errors']['credentials'] = "Identifiants incorrects";
+        $_SESSION['previous_inputs']['name'] = $_POST['name'];
+
+        redirect('/admin/login.php');
     }
 }
 
@@ -30,15 +33,15 @@ if (is_post()) {
         <h1 class="text-lg mb-4">Se connecter</h1>
 
         <form method="post">
-            <?php if (isset($errors['credentials'])): ?>
+            <?php if (isset($previous_errors['credentials'])): ?>
                 <p class="border border-red-900 w-full bg-red-100 text-red-900 text-xs mb-4 px-3 py-1">
-                    <?= $errors['credentials'] ?>
+                    <?= $previous_errors['credentials'] ?>
                 </p>
             <?php endif ?>
 
             <div class="mb-4">
                 <label for="name" class="block text-sm mb-px">Nom d'utilisateur</label>
-                <input id="name" type="text" name="name" class="border focus:border-black px-3 py-1 outline-none w-full" required autofocus>
+                <input id="name" type="text" name="name" class="border focus:border-black px-3 py-1 outline-none w-full" value="<?= $previous_inputs['name'] ?? '' ?>" required autofocus>
             </div>
 
             <div class="mb-4">
