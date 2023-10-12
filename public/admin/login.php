@@ -34,21 +34,10 @@ if (is_post()) {
         <h1 class="text-lg mb-4">Se connecter</h1>
 
         <form method="post">
-            <?php if (isset($previous_errors['credentials'])): ?>
-                <p class="border border-red-900 w-full bg-red-100 text-red-900 text-xs mb-4 px-3 py-1">
-                    <?= $previous_errors['credentials'] ?>
-                </p>
-            <?php endif ?>
+            <?php partial('admin_form_error', ['name' => 'credentials']) ?>
 
-            <div class="mb-4">
-                <label for="name" class="block text-sm mb-px">Nom d'utilisateur</label>
-                <input id="name" type="text" name="name" class="border focus:border-black px-3 py-1 outline-none w-full" value="<?= $previous_inputs['name'] ?? '' ?>" required autofocus>
-            </div>
-
-            <div class="mb-4">
-                <label for="password" class="block text-sm mb-px">Mot de passe</label>
-                <input id="password" type="password" name="password" class="border focus:border-black px-3 py-1 outline-none w-full" required>
-            </div>
+            <?php partial('admin_input', ['name' => 'name', 'label' => "Nom d'utilisateur"]) ?>
+            <?php partial('admin_input', ['name' => 'password', 'type' => 'password', 'label' => "Mot de passe"]) ?>
 
             <div class="mt-8">
                 <button type="submit" class="border py-1 px-2">Se connecter</button>

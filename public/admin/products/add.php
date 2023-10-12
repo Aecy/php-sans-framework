@@ -3,14 +3,27 @@
 require_once __DIR__ . '/../../../bootstrap.php';
 redirect_unless_admin();
 
+import('categories');
+import('products');
+
+$categories = get_all_categories();
+
 if (is_post()) {
     validate([
         'name' => ['required'],
-        'description' => ['required']
+        'description' => ['required'],
+        'category_id' => ['required'],
     ]);
 
-    $query = pdo()->prepare("INSERT INTO products (name, description) VALUES (?, ?)");
-    $query->execute([$_POST['name'], $_POST['description']]);
+    $slug = slugify($_POST['name']);
+
+    $query = pdo()->prepare("INSERT INTO products (name, slug, description, category_id) VALUES (?, ?, ?, ?)");
+    $query->execute([
+        $_POST['name'],
+        $slug,
+        $_POST['description'],
+        $_POST['category_id']
+    ]);
 
     flash_success("Le produit « {$_POST['name']} » a bien été supprimé.");
     redirect('/admin/products/index.php');
@@ -23,28 +36,10 @@ if (is_post()) {
 <h1 class="text-xl mb-4">Ajouter un produit</h1>
 
 <form method="post">
-    <div class="max-w-sm mb-3">
-        <label for="name" class="block text-sm mb-px">
-            Nom
-        </label>
-        <input id="name" type="text" name="name" class="border focus:border-black px-3 py-1 outline-none w-full" value="<?= $previous_inputs['name'] ?? '' ?>">
-        <?php if (isset($previous_errors['name'])): ?>
-            <p class="w-full text-red-900 text-xs">
-                <?= $previous_errors['name'] ?>
-            </p>
-        <?php endif ?>
-    </div>
-    <div class="max-w-sm mb-3">
-        <label for="description" class="block text-sm mb-px">
-            Description
-        </label>
-        <textarea id="description" name="description" class="border focus:border-black px-3 py-1 outline-none w-full h-32"><?= $previous_inputs['description'] ?? '' ?></textarea>
-        <?php if (isset($previous_errors['description'])): ?>
-            <p class="w-full text-red-900 text-xs">
-                <?= $previous_errors['description'] ?>
-            </p>
-        <?php endif ?>
-    </div>
+
+    <?php partial('admin_input', ['name' => 'name', 'type' => 'text', 'label' => 'Nom']) ?>
+    <?php partial('admin_textarea', ['name' => 'description', 'label' => 'Description']) ?>
+    <?php partial('admin_select', ['name' => 'category_id', 'label' => 'Catégorie', 'options' => $categories, 'option_key' => 'name']) ?>
 
     <div class="mt-8">
         <button type="submit" class="border py-1 px-2">

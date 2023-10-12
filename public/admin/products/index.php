@@ -32,10 +32,10 @@ $products = $query->fetchAll(PDO::FETCH_CLASS, Product::class);
             </p>
         </div>
         <div class="flex gap-2 mt-4">
-            <a href="/admin/products/edit.php?id=<?= $product->id ?>" class="border text-sm py-0.5 px-1 uppercase">
+            <a href="/admin/products/edit.php?slug=<?= $product->slug ?>" class="border text-sm py-0.5 px-1 uppercase">
                 Modifier
             </a>
-            <form method="post" action="/admin/products/delete.php?id=<?= $product->id ?>">
+            <form method="post" action="/admin/products/delete.php?slug=<?= $product->slug ?>">
                 <button type="submit" class="border border-red-700 text-red-700 text-sm py-0.5 px-1 uppercase">Supprimer</button>
             </form>
         </div>
