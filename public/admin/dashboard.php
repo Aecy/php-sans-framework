@@ -11,5 +11,9 @@ redirect_unless_admin();
 
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem iusto voluptatibus. Animi autem consequuntur deleniti ipsa nemo odio possimus praesentium quam repellat reprehenderit. Alias impedit ipsum nobis sed voluptate.</p>
 
+<p>
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquam architecto, aspernatur corporis cumque enim eos error et facilis fugiat maiores necessitatibus, odit quo rem sequi voluptatibus! Amet earum omnis quibusdam.
+</p>
+
 
 <?php partial("footer_admin") ?>
