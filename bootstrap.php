@@ -1,7 +1,8 @@
 <?php
 
+define('START_MICROTIME', microtime(true));
+
 ini_set('display_errors', 1);
-set_error_handler(function ($severity, $message, $file, $line) {
     throw new \ErrorException($message, $severity, $file, $line);
 });
 
@@ -16,6 +17,10 @@ if (is_post()) {
     $_SESSION['previous_errors'] = [];
     $_SESSION['previous_inputs'] = [];
 }
+register_shutdown_function(function () {
+    $time = round((microtime(true) - START_MICROTIME) * 1000, 3);
+    file_put_contents("php://stderr", "Execution page time {$time}ms\n");
+});
 
 function partial(string $name, array $params = []): void
 {
