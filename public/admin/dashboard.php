@@ -5,12 +5,11 @@ redirect_unless_admin();
 
 ?>
 
-<?php partial("header", ['title' => "Dashboard"]) ?>
+<?php partial("header_admin", ['title' => "Tableau de bord"]) ?>
 
-<h1>Bienvenue sur le dashboard</h1>
+<h1 class="text-xl mb-4">Administration</h1>
 
-<form method="post" action="/admin/logout.php">
-    <button>Se déconnecter</button>
-</form>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Assumenda autem iusto voluptatibus. Animi autem consequuntur deleniti ipsa nemo odio possimus praesentium quam repellat reprehenderit. Alias impedit ipsum nobis sed voluptate.</p>
 
-<?php partial("footer") ?>
+
+<?php partial("footer_admin") ?>

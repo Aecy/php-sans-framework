@@ -16,6 +16,7 @@ if (is_post()) {
         $_SESSION['admin'] = $admin;
         redirect('/admin/dashboard.php');
     } else {
+        save_inputs();
         $_SESSION['previous_errors']['credentials'] = "Identifiants incorrects";
         $_SESSION['previous_inputs']['name'] = $_POST['name'];
 
@@ -27,7 +28,7 @@ if (is_post()) {
 
 <?php partial("header", ['title' => "Se connecter"]) ?>
 
-<div class="min-w-screen min-h-screen flex justify-center items-start bg-gray-100">
+<div class="min-w-screen min-h-screen flex justify-center items-start">
     <div class="bg-white shadow p-8 mt-12">
 
         <h1 class="text-lg mb-4">Se connecter</h1>

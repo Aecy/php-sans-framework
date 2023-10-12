@@ -7,4 +7,4 @@
     <title><?= $title ?? 'PSF 1' ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 font-sans">

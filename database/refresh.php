@@ -12,7 +12,15 @@ $pdo->exec("CREATE TABLE admins (
     id INTEGER NOT NULL AUTO_INCREMENT,
     name VARCHAR(255),
     password VARCHAR(255),
-    
+
     PRIMARY KEY (id),
     CONSTRAINT uc_admins UNIQUE (name)
+)");
+
+$pdo->exec("CREATE TABLE products (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255),
+    description TEXT,
+
+    PRIMARY KEY (id)
 )");

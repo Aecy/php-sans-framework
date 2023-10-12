@@ -1,6 +1,9 @@
 <?php
 
 ini_set('display_errors', 1);
+set_error_handler(function ($severity, $message, $file, $line) {
+    throw new \ErrorException($message, $severity, $file, $line);
+});
 
 session_start();
 
@@ -23,7 +26,7 @@ function partial(string $name, array $params = []): void
 
 function is_post(): bool
 {
-	return $_SERVER['REQUEST_METHOD'] === 'POST';
+	return ($_SERVER['REQUEST_METHOD'] ?? 'CLI') === 'POST';
 }
 
 function pdo(): PDO
@@ -47,6 +50,11 @@ function redirect_unless_admin(): void
     }
 }
 
+function redirect_self(): void
+{
+    redirect($_SERVER['REQUEST_URI']);
+}
+
 function abort_404(): void
 {
     http_response_code(404);
@@ -54,3 +62,31 @@ function abort_404(): void
 
     die();
 }
+
+function is_on_page($page): bool
+{
+    return $_SERVER['SCRIPT_NAME'] === $page;
+}
+
+function is_on_directory($directory): bool
+{
+    return strpos($_SERVER['SCRIPT_NAME'], $directory) === 0;
+}
+
+function import(string $domain): void
+{
+    require_once __DIR__ . "/domain/$domain.php";
+}
+
+function save_inputs(): void
+{
+    foreach ($_POST as $key => $value) {
+        if (in_array($key, ['password'])) {
+            continue;
+        }
+        $_SESSION['previous_inputs'][$key] = $value;
+    }
+}
+
+import('validation');
+import('flash');
