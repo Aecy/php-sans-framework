@@ -3,49 +3,24 @@
 define('START_MICROTIME', microtime(true));
 
 ini_set('display_errors', 1);
-    throw new \ErrorException($message, $severity, $file, $line);
-});
 
 session_start();
 
-if (is_post()) {
-    $previous_errors = [];
-    $previous_inputs = [];
-} else {
-    $previous_errors = $_SESSION['previous_errors'] ?? [];
-    $previous_inputs = $_SESSION['previous_inputs'] ?? [];
-    $_SESSION['previous_errors'] = [];
-    $_SESSION['previous_inputs'] = [];
-}
 register_shutdown_function(function () {
     $time = round((microtime(true) - START_MICROTIME) * 1000, 3);
     file_put_contents("php://stderr", "Execution page time {$time}ms\n");
 });
 
-function partial(string $name, array $params = []): void
+function partial(string $__name, array $params = [])
 {
-	extract($params);
+    extract($params);
 
-	require __DIR__ . DIRECTORY_SEPARATOR . "html_partials" . DIRECTORY_SEPARATOR . "{$name}.html.php";
+    require(__DIR__ . "/html_partials/{$__name}.html.php");
 }
 
 function is_post(): bool
 {
-	return ($_SERVER['REQUEST_METHOD'] ?? 'CLI') === 'POST';
-}
-
-function pdo(): PDO
-{
-    static $pdo;
-
-    if ($pdo) {
-        return $pdo;
-    }
-
-	$pdo = new PDO("mysql:host=localhost;dbname=phpsansframework", 'root', 'root');
-	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-	return $pdo;
+    return ($_SERVER['REQUEST_METHOD'] ?? 'CLI') === 'POST';
 }
 
 function redirect(string $url)
@@ -95,9 +70,42 @@ function save_inputs(): void
         if (in_array($key, ['password'])) {
             continue;
         }
+
+        $_SESSION['previous_inputs'] = $_SESSION['previous_inputs'] ?? [];
         $_SESSION['previous_inputs'][$key] = $value;
     }
 }
 
+function get_previous_inputs()
+{
+    static $previous_inputs;
+    if ($previous_inputs) {
+        return $previous_inputs;
+    }
+
+    $previous_inputs = $_SESSION['previous_inputs'] ?? [];
+    $_SESSION['previous_inputs'] = [];
+
+    return $previous_inputs;
+}
+
+function get_previous_input(string $key)
+{
+    return get_previous_inputs()[$key] ?? null;
+}
+
+function slugify(string $text)
+{
+    if (extension_loaded('intl')) {
+        $text = transliterator_transliterate('Any-Latin; Latin-ASCII', $text);
+    }
+
+    $text = preg_replace('/[^a-zA-Z0-9]+/', '-', $text);
+    $text = trim($text, '-');
+
+    return strtolower($text);
+}
+
 import('validation');
 import('flash');
+import('database');
