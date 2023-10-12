@@ -9,14 +9,7 @@ if (! is_post()) {
     abort_404();
 }
 
-$query = pdo()->prepare("SELECT * FROM products WHERE id = ?");
-$query->setFetchMode(PDO::FETCH_CLASS, Product::class);
-$query->execute([$_GET['id']]);
-$product = $query->fetch();
-
-if (! $product) {
-    abort_404();
-}
+$product = find_product($_GET['id']);
 
 $query = pdo()->prepare("DELETE FROM products WHERE id = ?");
 $query->execute([$product->id]);

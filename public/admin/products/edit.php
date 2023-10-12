@@ -5,15 +5,7 @@ redirect_unless_admin();
 
 import('products');
 
-$query = pdo()->prepare("SELECT * FROM products WHERE id = ?");
-$query->execute([$_GET['id']]);
-$query->setFetchMode(PDO::FETCH_CLASS, Product::class);
-
-$product = $query->fetch();
-
-if (! $product) {
-    abort_404();
-}
+$product = find_product($_GET['id']);
 
 if (is_post()) {
 
