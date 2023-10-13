@@ -8,6 +8,8 @@ class Product
     public $slug;
     public $description;
     public $category_id;
+    public $price_in_cents;
+    public $main_image_id;
 
 }
 

@@ -26,8 +26,16 @@ if (is_post()) {
 
 ?>
 
-<?php partial("header", ['title' => "Se connecter"]) ?>
-
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Se connecter • PURE LEAF | Administration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
 <div class="min-w-screen min-h-screen flex justify-center items-start">
     <div class="bg-white shadow p-8 mt-12">
 
@@ -45,5 +53,5 @@ if (is_post()) {
         </form>
     </div>
 </div>
-
-<?php partial("footer") ?>
+</body>
+</html>

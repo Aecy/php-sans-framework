@@ -26,6 +26,17 @@ $pdo->exec("CREATE TABLE admins (
 )");
 
 /**
+ * Images
+ */
+
+$pdo->exec("CREATE TABLE images (
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    filename VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (id)
+)");
+
+/**
  * Categories
  */
 
@@ -38,8 +49,10 @@ $pdo->exec("CREATE TABLE categories  (
     CONSTRAINT uc_categories UNIQUE (slug)
 )");
 
-$pdo->exec("INSERT INTO categories (slug, name) VALUES ('carnet-de-sante', 'Carnet de santé')");
-$pdo->exec("INSERT INTO categories (slug, name) VALUES ('gigoteuse', 'Gigoteuse')");
+$pdo->exec("INSERT INTO categories (slug, name) VALUES ('fleurs-cbd', 'Fleurs CBD')");
+$pdo->exec("INSERT INTO categories (slug, name) VALUES ('resines-cbd', 'Résines CBD')");
+$pdo->exec("INSERT INTO categories (slug, name) VALUES ('huiles-cbd', 'Huiles CBD')");
+$pdo->exec("INSERT INTO categories (slug, name) VALUES ('accessoires', 'Accessoires')");
 
 /**
  * Products
@@ -51,6 +64,8 @@ $pdo->exec("CREATE TABLE products (
     name VARCHAR(255) NOT NULL,
     slug VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    price_in_cents INTEGER NOT NULL,
+    main_image_id INTEGER NOT NULL REFERENCES images(id),
 
     PRIMARY KEY (id),
     CONSTRAINT fk_category_products FOREIGN KEY (category_id) REFERENCES categories(id),

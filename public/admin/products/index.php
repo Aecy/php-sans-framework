@@ -12,7 +12,7 @@ $products = $query->fetchAll(PDO::FETCH_CLASS, Product::class);
 
 ?>
 
-<?php partial("header_admin", ['title' => "Produits"]) ?>
+<?php partial("admin_header", ['title' => "Produits"]) ?>
 
 <div class="flex items-baseline gap-4 mb-4">
     <h1 class="text-xl">Produits</h1>
@@ -42,4 +42,4 @@ $products = $query->fetchAll(PDO::FETCH_CLASS, Product::class);
     </div>
 <?php endforeach ?>
 
-<?php partial("footer_admin") ?>
+<?php partial("admin_footer") ?>

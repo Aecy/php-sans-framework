@@ -5,7 +5,7 @@ redirect_unless_admin();
 
 ?>
 
-<?php partial("header_admin", ['title' => "Tableau de bord"]) ?>
+<?php partial("admin_header", ['title' => "Tableau de bord"]) ?>
 
 <h1 class="text-xl mb-4">Administration</h1>
 
@@ -16,4 +16,4 @@ redirect_unless_admin();
 </p>
 
 
-<?php partial("footer_admin") ?>
+<?php partial("admin_footer") ?>

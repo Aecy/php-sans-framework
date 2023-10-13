@@ -1,14 +1,14 @@
 <?php
 
 define('START_MICROTIME', microtime(true));
+define('PROJECT_ROOT', __DIR__);
 
 ini_set('display_errors', 1);
-
 session_start();
 
 register_shutdown_function(function () {
     $time = round((microtime(true) - START_MICROTIME) * 1000, 3);
-    file_put_contents("php://stderr", "Execution page time {$time}ms\n");
+    file_put_contents("php://stderr", "Execution time {$time}ms\n");
 });
 
 function partial(string $__name, array $params = [])
@@ -94,7 +94,7 @@ function get_previous_input(string $key)
     return get_previous_inputs()[$key] ?? null;
 }
 
-function slugify(string $text)
+function slugify(string $text): string
 {
     if (extension_loaded('intl')) {
         $text = transliterator_transliterate('Any-Latin; Latin-ASCII', $text);
@@ -104,6 +104,20 @@ function slugify(string $text)
     $text = trim($text, '-');
 
     return strtolower($text);
+}
+
+function string_to_float(string $french_float_in_string): ?float
+{
+    $french_float_in_string = str_replace(' ', '', $french_float_in_string);
+    $english_float_in_string = str_replace(',', '.', $french_float_in_string);
+
+    $float = filter_var($english_float_in_string, FILTER_VALIDATE_FLOAT);
+    return $float === false ? null : $float;
+}
+
+function euros_to_string(float $euros): string
+{
+    return number_format($euros, 2, ',', '');
 }
 
 import('validation');
