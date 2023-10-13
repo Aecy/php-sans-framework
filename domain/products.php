@@ -15,9 +15,10 @@ class Product
 
 function find_product(string $slug): Product
 {
-    $query = pdo()->prepare("SELECT * FROM products WHERE slug = ?");
-    $query->execute([$slug]);
-    $query->setFetchMode(PDO::FETCH_CLASS, Product::class);
-
-    return $query->fetch() ?? abort_404();
+    return find_or_fail_by_key(
+        'products',
+        Product::class,
+        'slug',
+        $slug
+    );
 }

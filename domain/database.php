@@ -14,3 +14,11 @@ function pdo(): PDO
     return $pdo;
 }
 
+function find_or_fail_by_key(string $table, $class, string $key_name, string $key_value)
+{
+    $query = pdo()->prepare("SELECT * FROM $table WHERE $key_name = ?");
+    $query->setFetchMode(PDO::FETCH_CLASS, $class);
+    $query->execute([$key_value]);
+
+    return $query->fetch() ?? null;
+}

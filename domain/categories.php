@@ -16,10 +16,5 @@ function get_all_categories(): array
 
 function find_category(int $id): Category
 {
-    $query = pdo()->prepare("SELECT * FROM categories WHERE id = ?");
-    $query->execute([$id]);
-    $query->setFetchMode(PDO::FETCH_CLASS, Category::class);
-
-    return $query->fetch() ?? abort_404();
-
+    return find_or_fail_by_key('categories', Category::class, 'id', $id) ?? abort_404();
 }

@@ -1,11 +1,10 @@
 <div class="max-w-sm mb-3">
-    <label
-        for="<?= $name ?>"
-        class="block text-sm mb-px"
-    >
+    <label for="<?= $name ?>" class="block text-sm mb-px">
         <?= $label ?>
     </label>
-
+    <?php if (isset($image)): ?>
+        <img src="/images/uploaded/<?= $image->filename ?>" alt="">
+    <?php endif; ?>
     <input
         id="<?= $name ?>"
         type="file"

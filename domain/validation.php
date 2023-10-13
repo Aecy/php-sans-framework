@@ -70,7 +70,11 @@ function validate_price($value)
 
 function validate_image($image_info)
 {
-    if (! is_uploaded_file($image_info['tmp_name'])) {
+    if (is_null($image_info) or $image_info['error'] === UPLOAD_ERR_NO_FILE) {
+        return;
+    }
+
+    if ($image_info['error'] !== UPLOAD_ERR_OK or ! is_uploaded_file($image_info['tmp_name'])) {
         return "Mauvais envoi.";
     }
 
